@@ -1,10 +1,8 @@
 void() ConvertItem;
 
 void() precache_apworld = {
-    precache_model ("progs/quaddama.mdl");
-    precache_sound ("items/damage.wav");
-    precache_sound ("items/damage2.wav");
-    precache_sound ("items/damage3.wav");
+    precache_model ("progs/apitem.mdl");
+    precache_sound ("items/itembk2.wav");
 }
 
 void() SetApItems = {
@@ -31,7 +29,8 @@ void() SetApItems = {
 		|| temp.classname == "weapon_supershotgun" || temp.classname == "weapon_nailgun"
                 || temp.classname == "weapon_supernailgun" || temp.classname == "weapon_grenadelauncher"
                 || temp.classname == "weapon_rocketlauncher" || temp.classname == "weapon_lightning") {
-			dprint("Replacing index ");
+		        dprint(world.model);
+			dprint(": Replacing index ");
 			dprint(ftos(temp.ApIndex));
 			dprint(" of type ");
 			dprint(temp.classname);
@@ -49,11 +48,11 @@ void() SetApItems = {
 void() ConvertItem {
 	self.oldmins = self.mins;
 	self.touch = powerup_touch;
-	self.classname = "item_artifact_super_damage";
-	self.noise = "items/damage.wav";
-	setmodel ( self, "progs/quaddama.mdl" );
-	self.netname = "Quad Damage";
-	self.items = IT_QUAD;
+	self.classname = "item_archipelago";
+	self.noise = "items/itembk2.wav";
+	setmodel ( self, "progs/apitem.mdl" );
+	self.netname = "Archipelago Item";
+	self.items = 0;
 	self.skin = 0;
 	setsize ( self, '-16 -16 -24', '16 16 32' );
 	StartItem();
