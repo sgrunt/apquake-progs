@@ -23,7 +23,7 @@ void() SetApItems = {
 		|| temp.classname == "item_armor1" || temp.classname == "item_armor2"
                 || (temp.classname == "item_health" && (temp.spawnflags & H_MEGA))
 		|| temp.classname == "item_armorInv" || (temp.classname == "item_health" && (temp.spawnflags & H_MEGA))
-                || temp.classname == "item_artifact_invulnerability" || temp.classname == "item_artifact_envirosuit"
+                || temp.classname == "item_artifact_invulnerability"
                 || temp.classname == "item_artifact_invisibility" || temp.classname == "item_artifact_super_damage"
 		|| temp.classname == "weapon_supershotgun" || temp.classname == "weapon_nailgun"
                 || temp.classname == "weapon_supernailgun" || temp.classname == "weapon_grenadelauncher"
@@ -32,7 +32,7 @@ void() SetApItems = {
 			dprint(": Replacing index ");
 			dprint(ftos(temp.ApIndex));
 			dprint(" of type ");
-			dprint(temp.classname);
+			dprint(temp.netname);
 			dprint("\n");
 			temp.Unstuckable = 1;
 			temp.nextthink = time;
