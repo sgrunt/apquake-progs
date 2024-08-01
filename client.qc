@@ -32,21 +32,36 @@ void() info_intermission =
 
 void() SetChangeParms =
 {
-	if (self.health <= 0)
-	{
-		SetNewParms ();
-		return;
-	}
+	//if (self.health <= 0)
+	//{
+	//	SetNewParms ();
+	//	return;
+	//}
 
 // remove items
 	self.items = self.items - (self.items & 
-	(IT_KEY1 | IT_KEY2 | IT_INVISIBILITY | IT_INVULNERABILITY | IT_SUIT | IT_QUAD) );
-	
-// cap super health
-	if (self.health > 100)
+	(IT_KEY1 | IT_KEY2));
+
+	if (self.health <= 0) {
 		self.health = 100;
-	if (self.health < 50)
+		if ((self.items & (IT_NAILGUN | IT_SUPER_NAILGUN))
+		    && self.ammo_nails < 50) {
+			self.ammo_nails = 50;
+		}
+		if ((self.items & (IT_GRENADE_LAUNCHER | IT_ROCKET_LAUNCHER))
+		    && self.ammo_rockets < 25) {
+			self.ammo_rockets = 25;
+		}
+		if ((self.items & (IT_LIGHTNING))
+		    && self.ammo_cells < 50) {
+			self.ammo_cells = 50;
+		}
+	}
+
+	if (self.health < 50) {
 		self.health = 50;
+	}
+	
 	parm1 = self.items;
 	parm2 = self.health;
 	parm3 = self.armorvalue;
@@ -135,15 +150,17 @@ entity() FindIntermission =
 
 
 string nextmap;
-void() EndLevel =
+void(entity client) EndLevel =
 {
-	localcmd("disconnect; menu_play");
+	self = client;
+	SetChangeParms();
+	localcmd("disconnect; menu_play\n");
 };
 
 
-void() ExitIntermission =
+void(entity client) ExitIntermission =
 {
-	EndLevel ();
+	EndLevel (client);
 };
 
 /*
@@ -161,7 +178,7 @@ void() IntermissionThink =
 	if (!self.button0 && !self.button1 && !self.button2)
 		return;
 	
-	ExitIntermission ();
+	ExitIntermission (self);
 };
 
 void() execute_changelevel =
@@ -224,7 +241,7 @@ void() changelevel_touch =
 
 	SUB_UseTargets ();
 
-	EndLevel();
+	EndLevel(other);
 };
 
 /*QUAKED trigger_changelevel (0.5 0.5 0.5) ? NO_INTERMISSION
@@ -1065,7 +1082,7 @@ void() ClientConnect =
 	
 // a client connecting during an intermission can cause problems
 	if (intermission_running)
-		ExitIntermission ();
+		ExitIntermission (self);
 };
 
 
