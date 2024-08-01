@@ -46,6 +46,9 @@ void() SetApItems = {
 }
 
 void() ConvertItem {
+	if (self.classname == "item_health") {
+		self.origin_z = self.origin_z + 24;
+	}
 	self.oldmins = self.mins;
 	self.touch = powerup_touch;
 	self.classname = "item_archipelago";
