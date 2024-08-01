@@ -22,7 +22,6 @@ void() SetApItems = {
 	        if(temp.classname == "item_key1" || temp.classname == "item_key2" || temp.classname == "item_sigil"
 		|| temp.classname == "item_armor1" || temp.classname == "item_armor2"
                 || (temp.classname == "item_health" && (temp.spawnflags & H_MEGA))
-		|| temp.classname == "item_weapon"
 		|| temp.classname == "item_armorInv" || (temp.classname == "item_health" && (temp.spawnflags & H_MEGA))
                 || temp.classname == "item_artifact_invulnerability" || temp.classname == "item_artifact_envirosuit"
                 || temp.classname == "item_artifact_invisibility" || temp.classname == "item_artifact_super_damage"
