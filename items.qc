@@ -33,25 +33,61 @@ PlaceItem
 plants the object on the floor
 ============
 */
+
+void(entity e) UnstuckObject;
+
 void() PlaceItem =
 {
-	local float	oldz;
+        local vector old, neworigin;
 
 	self.mdl = self.model;		// so it can be restored on respawn
 	self.flags = FL_ITEM;		// make extra wide
 	self.solid = SOLID_TRIGGER;
 	self.movetype = MOVETYPE_TOSS;	
 	self.velocity = '0 0 0';
-	self.origin_z = self.origin_z + 6;
-	oldz = self.origin_z;
-	if (!droptofloor())
-	{
-		dprint ("Bonus item fell out of level at ");
-		dprint (vtos(self.origin));
-		dprint ("\n");
-		remove(self);
-		return;
-	}
+
+        if(self.Unstuckable && self.mins != self.oldmins)
+        {
+                dprint (self.classname);
+                dprint (" in ");
+                dprint (vtos(self.origin));
+                dprint (" will be relocated to ");
+                // The Z coordinate of an item will be corrected in case the bounding boxes are differently-sized. (X and Y coordinates are fine)
+                neworigin = self.origin;
+                neworigin_z = neworigin_z + fabs(self.size_z);
+                setorigin(self, neworigin);
+                droptofloor();
+                dprint (vtos(self.origin));
+                dprint (" to correct its bounding box.");
+                dprint ("\n");
+        }
+
+	self.origin_z = self.origin_z + 1;
+
+        if(self.Unstuckable)
+        {
+                if (!droptofloor())
+                {
+                        old_x = self.origin_x;
+                        old_y = self.origin_y;
+                        old_z = self.origin_z;
+                        UnstuckObject(self);
+                }
+
+                if (!droptofloor())
+                {
+                        self.origin_x = old_x;
+                        self.origin_y = old_y;
+                        self.origin_z = old_z;
+                        dprint ("\nUnstuck failed. Bonus item ");
+                        dprint (self.classname);
+                        dprint (" removed from level at ");
+                        dprint (vtos(self.origin));
+                        dprint ("\n");
+                        remove(self);
+                        return;
+                }
+        }
 };
 
 /*

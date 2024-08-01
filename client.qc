@@ -377,7 +377,7 @@ called each time a player is spawned
 */
 void() DecodeLevelParms;
 void() PlayerDie;
-
+void() SetApItems;
 
 void() PutClientInServer =
 {
@@ -403,6 +403,8 @@ void() PutClientInServer =
 	self.invincible_time = 0;
 
 	DecodeLevelParms ();
+
+	SetApItems ();
 	
 	W_SetCurrentAmmo ();
 

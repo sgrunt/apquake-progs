@@ -1,4 +1,6 @@
-
+.float ApIndex;
+.string ApConverted;
+.vector oldmins;
 
 void() SUB_Null = {};
 
@@ -313,4 +315,89 @@ void (void() thinkst) SUB_CheckRefire =
 		return;
 	self.cnt = 1;
 	self.think = thinkst;
+};
+
+float seed, next;
+
+float rand() = {
+    float a = 11;
+    float c = 10653;
+    float m = 1000000;
+    if(next == 0) next = seed;
+    next = floor((next * a + c) % m);
+    return (next / m);
+};
+
+float fmin(float a, float b) = {
+    if(a <= b)
+        return a;
+    return b;
+};
+
+float(float lower, float upper) Random =
+{
+        return floor((rand() * (upper - lower + 1)) + lower);
+};
+
+void(entity e) UnstuckObject =
+{
+        local entity oldself;
+        local float CURRENT_TRY;
+        local float MAX_TRIES;
+        local vector fixvector;
+        local vector old;
+        local vector min;
+        local vector max;
+        local vector diff;
+        local float dropped;
+
+        oldself = self;
+        self = e;
+
+        MAX_TRIES = 1500;
+        CURRENT_TRY = 0;
+        diff_x = self.size_x;
+        diff_y = self.size_y;
+        diff_z = self.size_z;
+        old_x = self.origin_x;
+        old_y = self.origin_y;
+        old_z = self.origin_z;
+        dprint("Attempting to unstuck ");
+        dprint(self.classname);
+        dprint(" (");
+        dprint(vtos(self.origin));
+        dprint(").");
+        do
+        {
+                fixvector_x = old_x;
+                fixvector_y = old_y;
+                fixvector_z = old_z;
+                // Give six tries with a single coordinate change in case it works
+                diff_x = fmin(diff_x + 3, 1200);
+                diff_y = fmin(diff_y + 3, 1200);
+                diff_z = fmin(diff_z + 3, 1200);
+                min_x = old_x - diff_x;
+                min_y = old_y - diff_y;
+                min_z = old_z - diff_z;
+                max_x = old_x + diff_x;
+                max_y = old_y + diff_y;
+                max_z = old_z + diff_z;
+                fixvector_x = Random(min_x, max_x);
+                fixvector_y = Random(min_y, max_y);
+                fixvector_z = Random(min_z, max_z);
+                setorigin(self, fixvector);
+                CURRENT_TRY = CURRENT_TRY + 1;
+                dropped = droptofloor();
+                if(dropped)
+                {
+                        dprint(" Worked after ");
+                        dprint(ftos(CURRENT_TRY));
+                        dprint(" attempt(s) and relocated to (");
+                        dprint(vtos(self.origin));
+                        dprint(").\n");
+                }
+        }
+        while(!dropped && CURRENT_TRY < MAX_TRIES);
+        self.velocity_z = -500;
+        self = oldself;
 };
