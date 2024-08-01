@@ -137,7 +137,7 @@ entity() FindIntermission =
 string nextmap;
 void() EndLevel =
 {
-	localcmd("disconnect");
+	localcmd("disconnect; menu_play");
 };
 
 
