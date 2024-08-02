@@ -403,6 +403,7 @@ called each time a player is spawned
 void() DecodeLevelParms;
 void() PlayerDie;
 void() SetApItems;
+void() DisableHubTele;
 
 void() PutClientInServer =
 {
@@ -459,6 +460,7 @@ void() PutClientInServer =
 	self.view_ofs = '0 0 22';
 
 	player_stand1 ();
+	DisableHubTele ();
 	
 	if (deathmatch || coop)
 	{
@@ -482,8 +484,11 @@ void() PutClientInServer =
 /*QUAKED info_player_start (1 0 0) (-16 -16 -24) (16 16 24)
 The normal starting point for a level.
 */
+void(entity startpos) spawn_hub_tele;
+
 void() info_player_start =
 {
+    spawn_hub_tele(self);
 };
 
 
