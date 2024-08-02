@@ -32,16 +32,6 @@ void() info_intermission =
 
 void() SetChangeParms =
 {
-	//if (self.health <= 0)
-	//{
-	//	SetNewParms ();
-	//	return;
-	//}
-
-// remove items
-	self.items = self.items - (self.items & 
-	(IT_KEY1 | IT_KEY2));
-
 	if (self.health <= 0) {
 		self.health = 100;
 		if ((self.items & (IT_NAILGUN | IT_SUPER_NAILGUN))
