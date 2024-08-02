@@ -3,6 +3,18 @@ void() ConvertItem;
 void() precache_apworld = {
     precache_model ("progs/apitem.mdl");
     precache_sound ("items/itembk2.wav");
+
+	precache_sound ("items/protect.wav");
+	precache_sound ("items/protect2.wav");
+	precache_sound ("items/protect3.wav");
+	precache_sound ("items/suit.wav");
+	precache_sound ("items/suit2.wav");
+	precache_sound ("items/inv1.wav");
+	precache_sound ("items/inv2.wav");
+	precache_sound ("items/inv3.wav");
+	precache_sound ("items/damage.wav");
+	precache_sound ("items/damage2.wav");
+	precache_sound ("items/damage3.wav");
 }
 
 void() SetApItems = {

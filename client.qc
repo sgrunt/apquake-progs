@@ -74,6 +74,10 @@ void() SetChangeParms =
 	parm7 = self.ammo_cells;
 	parm8 = self.weapon;
 	parm9 = self.armortype * 100;
+	parm10 = self.invisible_finished - time;
+	parm11 = self.invincible_finished - time;
+	parm12 = self.radsuit_finished - time;
+	parm13 = self.super_damage_finished - time;
 };
 
 void() SetNewParms =
@@ -87,6 +91,10 @@ void() SetNewParms =
 	parm7 = 0;
 	parm8 = 1;
 	parm9 = 0;
+	parm10 = 0;
+	parm11 = 0;
+	parm12 = 0;
+	parm13 = 0;
 };
 
 void() DecodeLevelParms =
@@ -106,6 +114,22 @@ void() DecodeLevelParms =
 	self.ammo_cells = parm7;
 	self.weapon = parm8;
 	self.armortype = parm9 * 0.01;
+	if (parm10 > 0) {
+		self.invisible_time = 1;
+		self.invisible_finished = time + parm10;
+	}
+	if (parm11 > 0) {
+		self.invincible_time = 1;
+		self.invincible_finished = time + parm11;
+	}
+	if (parm12 > 0) {
+		self.rad_time = 1;
+		self.radsuit_finished = time + parm12;
+	}
+	if (parm12 > 0) {
+		self.super_time = 1;
+		self.super_damage_finished = time + parm13;
+	}
 };
 
 /*
