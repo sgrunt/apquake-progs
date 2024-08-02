@@ -21,7 +21,7 @@ void() SetApItems = {
     local entity temp;
     local float i;
 
-    seed = 12345678;
+    seed = cvar("ap_rand_seed");
 
     temp = find(world, ApConverted, "");
     while(temp != world) {
@@ -68,6 +68,7 @@ void() ConvertItem {
 	self.netname = "Archipelago Item";
 	self.items = 0;
 	self.skin = 0;
+	self.effects = self.effects | EF_BRIGHTFIELD | EF_DIMLIGHT;
 	setsize ( self, '-16 -16 -24', '16 16 32' );
 	StartItem();
 }
