@@ -650,7 +650,7 @@ string(string s) precache_file		= #68;	// no effect except for -copy
 void(entity e) makestatic		= #69;
 void(string s) changelevel = #70;
 
-//#71 was removed
+void() completelevel = #71;
 
 void(string var, string val) cvar_set = #72;	// sets cvar.value
 

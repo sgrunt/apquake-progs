@@ -255,6 +255,7 @@ void() changelevel_touch =
 
 	SUB_UseTargets ();
 
+	completelevel();
 	EndLevel(other);
 };
 

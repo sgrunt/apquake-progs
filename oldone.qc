@@ -232,6 +232,8 @@ void() finale_4 =
 	WriteByte (MSG_ALL, 3);
 	WriteByte (MSG_ALL, 3);
 	lightstyle(0, "m");	
+
+	completelevel();
 };
 
 //============================================================================
