@@ -68,7 +68,9 @@ void() ConvertItem {
 	self.netname = "Archipelago Item";
 	self.items = 0;
 	self.skin = 0;
-	self.effects = self.effects | EF_BRIGHTFIELD | EF_DIMLIGHT;
+	if (is_major_ap_item(self.ApIndex) > 0) {
+		self.effects = self.effects | EF_BRIGHTFIELD | EF_DIMLIGHT;
+	}
 	setsize ( self, '-16 -16 -24', '16 16 32' );
 	StartItem();
 }

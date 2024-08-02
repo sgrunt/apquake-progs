@@ -470,6 +470,7 @@ void() PutClientInServer =
 	}
 
 	spawn_tdeath (self.origin, self);
+
 };
 
 

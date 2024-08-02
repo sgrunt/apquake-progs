@@ -604,10 +604,10 @@ void(float style, string value) lightstyle = #35;
 float(float v) rint					= #36;		// round to nearest int
 float(float v) floor				= #37;		// largest integer <= v
 float(float v) ceil					= #38;		// smallest integer >= v
-// #39 was removed
+float(float f) is_major_ap_item = #39;
 float(entity e) checkbottom			= #40;		// true if self is on ground
 float(vector v) pointcontents		= #41;		// returns a CONTENT_*
-// #42 was removed
+void(float f) send_ap_check = #42;
 float(float f) fabs = #43;
 vector(entity e, float speed) aim = #44;		// returns the shooting vector
 float(string s) cvar = #45;						// return cvar.value

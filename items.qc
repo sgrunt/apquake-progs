@@ -1169,6 +1169,11 @@ local float		best;
 		other.super_damage_finished = time + 30;
 	}	
 
+	if (self.classname == "item_archipelago")
+	{
+		send_ap_check(self.ApIndex);
+	}
+
 	activator = other;
 	SUB_UseTargets();				// fire all targets / killtargets
 };
