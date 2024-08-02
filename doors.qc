@@ -254,7 +254,8 @@ void() door_touch =
 		return;
 	}
 
-	other.items = other.items - self.items;
+// [AP] don't use keys when using the door
+//	other.items = other.items - self.items;
 	self.touch = SUB_Null;
 	if (self.enemy)
 		self.enemy.touch = SUB_Null;	// get paired door
