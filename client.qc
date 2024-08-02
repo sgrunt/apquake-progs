@@ -28,7 +28,25 @@ void() info_intermission =
 {
 };
 
-
+void() SetChangeParms_MidLevel
+{
+	parm1 = self.items;
+	parm2 = self.health;
+	parm3 = self.armorvalue;
+	if (self.ammo_shells < 25)
+		parm4 = 25;
+	else
+		parm4 = self.ammo_shells;
+	parm5 = self.ammo_nails;
+	parm6 = self.ammo_rockets;
+	parm7 = self.ammo_cells;
+	parm8 = self.weapon;
+	parm9 = self.armortype * 100;
+	parm10 = self.invisible_finished - time;
+	parm11 = self.invincible_finished - time;
+	parm12 = self.radsuit_finished - time;
+	parm13 = self.super_damage_finished - time;
+}
 
 void() SetChangeParms =
 {
@@ -51,23 +69,8 @@ void() SetChangeParms =
 	if (self.health < 50) {
 		self.health = 50;
 	}
-	
-	parm1 = self.items;
-	parm2 = self.health;
-	parm3 = self.armorvalue;
-	if (self.ammo_shells < 25)
-		parm4 = 25;
-	else
-		parm4 = self.ammo_shells;
-	parm5 = self.ammo_nails;
-	parm6 = self.ammo_rockets;
-	parm7 = self.ammo_cells;
-	parm8 = self.weapon;
-	parm9 = self.armortype * 100;
-	parm10 = self.invisible_finished - time;
-	parm11 = self.invincible_finished - time;
-	parm12 = self.radsuit_finished - time;
-	parm13 = self.super_damage_finished - time;
+
+	SetChangeParms_MidLevel();
 };
 
 void() SetNewParms =
