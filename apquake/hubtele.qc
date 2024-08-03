@@ -21,7 +21,11 @@ void() DisableHubTele {
 }
 
 void() HubTeleInit {
-	if (!droptofloor()) {
+	if (world.model == "maps/e4m1.bsp") {
+		setorigin(hub_tele, '1320 750 -368');
+	} else if (world.model == "maps/e4m2.bsp") {
+		setorigin(hub_tele, '240 -240 792');
+	} else if (!droptofloor()) {
 		setorigin(hub_tele, hub_tele.origin - '0 0 256');
 		if (!droptofloor()) {
 			setorigin(hub_tele, hub_tele.origin - '0 0 256');
