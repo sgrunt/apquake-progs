@@ -84,7 +84,7 @@ void() PlaceItem =
                         dprint (" removed from level at ");
                         dprint (vtos(self.origin));
                         dprint ("\n");
-                        remove(self);
+                        //remove(self);
                         return;
                 }
         }

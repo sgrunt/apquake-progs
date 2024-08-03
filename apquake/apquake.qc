@@ -57,6 +57,11 @@ void() SetApItems = {
 }
 
 void() ConvertItem {
+	if (world.model == "maps/e1m8.bsp" && self.ApIndex == 468) {
+		// unreachable
+		remove(self);
+		return;
+	}
 	if (self.classname == "item_health") {
 		self.origin_z = self.origin_z + 24;
 	}
