@@ -110,18 +110,30 @@ void() DecodeLevelParms =
 	if (parm10 > 0) {
 		self.invisible_time = 1;
 		self.invisible_finished = time + parm10;
+	} else {
+		self.invisible_time = 0;
+		self.invisible_finished = 0;
 	}
 	if (parm11 > 0) {
 		self.invincible_time = 1;
 		self.invincible_finished = time + parm11;
+	} else {
+		self.invincible_time = 0;
+		self.invincible_finished = 0;
 	}
 	if (parm12 > 0) {
 		self.rad_time = 1;
 		self.radsuit_finished = time + parm12;
+	} else {
+		self.rad_time = 0;
+		self.radsuit_finished = 0;
 	}
 	if (parm12 > 0) {
 		self.super_time = 1;
 		self.super_damage_finished = time + parm13;
+	} else {
+		self.super_time = 0;
+		self.super_damage_finished = 0;
 	}
 };
 
@@ -927,7 +939,7 @@ void() CheckPowerups =
 
 		if (self.invisible_finished < time)
 		{	// just stopped
-			self.items = self.items - IT_INVISIBILITY;
+			self.items = self.items - (self.items & IT_INVISIBILITY);
 			self.invisible_finished = 0;
 			self.invisible_time = 0;
 		}
@@ -962,7 +974,7 @@ void() CheckPowerups =
 		
 		if (self.invincible_finished < time)
 		{	// just stopped
-			self.items = self.items - IT_INVULNERABILITY;
+			self.items = self.items - (self.items & IT_INVULNERABILITY);
 			self.invincible_time = 0;
 			self.invincible_finished = 0;
 		}
@@ -997,7 +1009,7 @@ void() CheckPowerups =
 
 		if (self.super_damage_finished < time)
 		{	// just stopped
-			self.items = self.items - IT_QUAD;
+			self.items = self.items - (self.items & IT_QUAD);
 			self.super_damage_finished = 0;
 			self.super_time = 0;
 		}
@@ -1032,7 +1044,7 @@ void() CheckPowerups =
 
 		if (self.radsuit_finished < time)
 		{	// just stopped
-			self.items = self.items - IT_SUIT;
+			self.items = self.items - (self.items & IT_SUIT);
 			self.rad_time = 0;
 			self.radsuit_finished = 0;
 		}
