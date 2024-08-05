@@ -128,7 +128,7 @@ void() DecodeLevelParms =
 		self.rad_time = 0;
 		self.radsuit_finished = 0;
 	}
-	if (parm12 > 0) {
+	if (parm13 > 0) {
 		self.super_time = 1;
 		self.super_damage_finished = time + parm13;
 	} else {
