@@ -616,7 +616,7 @@ entity(entity e) nextent = #47;					// for looping through all ents
 void(vector o, vector d, float color, float count) particle = #48;// start a particle effect
 void() ChangeYaw = #49;						// turn towards self.ideal_yaw
 											// at self.yaw_speed
-// #50 was removed
+float(float f) is_ap_location_checked = #50;
 vector(vector v) vectoangles			= #51;
 
 //

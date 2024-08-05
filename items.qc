@@ -35,6 +35,7 @@ plants the object on the floor
 */
 
 void(entity e) UnstuckObject;
+void() ApItemThink;
 
 void() PlaceItem =
 {
@@ -85,9 +86,13 @@ void() PlaceItem =
                         dprint (vtos(self.origin));
                         dprint ("\n");
                         //remove(self);
-                        return;
                 }
         }
+
+	if (self.classname == "item_archipelago") {
+		self.nextthink = time + 0.1;
+		self.think = ApItemThink;
+	}
 };
 
 /*

@@ -40,15 +40,19 @@ void() SetApItems = {
 		|| temp.classname == "weapon_supershotgun" || temp.classname == "weapon_nailgun"
                 || temp.classname == "weapon_supernailgun" || temp.classname == "weapon_grenadelauncher"
                 || temp.classname == "weapon_rocketlauncher" || temp.classname == "weapon_lightning") {
-		        dprint(world.model);
-			dprint(": Replacing index ");
-			dprint(ftos(temp.ApIndex));
-			dprint(" of type ");
-			dprint(temp.netname);
-			dprint("\n");
-			temp.Unstuckable = 1;
-			temp.nextthink = time;
-			temp.think = ConvertItem;
+			if (!temp.target && !temp.killtarget && !temp.delay && is_ap_location_checked(temp.ApIndex)) {
+				remove(temp);
+			} else {
+			        dprint(world.model);
+				dprint(": Replacing index ");
+				dprint(ftos(temp.ApIndex));
+				dprint(" of type ");
+				dprint(temp.netname);
+				dprint("\n");
+				temp.Unstuckable = 1;
+				temp.nextthink = time;
+				temp.think = ConvertItem;
+			}
 		}
 	    }
 	}
@@ -80,4 +84,17 @@ void() ConvertItem {
 	}
 	setsize ( self, '-16 -16 -24', '16 16 32' );
 	StartItem();
+}
+
+void() ApItemThink {
+	if (self.target || self.killtarget || self.delay) {
+		return;
+	}
+
+	if (is_ap_location_checked(self.ApIndex)) {
+		remove(self);
+		return;
+	}
+
+	self.nextthink = time + 0.1;
 }
