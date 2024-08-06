@@ -21,3 +21,23 @@ void() ShuffleItems {
 		i = i + 1;
 	}
 }
+
+float monster_count;
+entity monsters_to_randomize[512];
+
+void() ShuffleMonsters {
+	local float i;
+	local float j;
+	local void() temp_func;
+	i = 1;
+	j = 0;
+	while (i < monster_count) {
+		j = floor(rand() * (i + 1));
+		if (j != i) {
+			temp_func = monsters_to_randomize[i].think;
+			monsters_to_randomize[i].think = monsters_to_randomize[j].think;
+			monsters_to_randomize[j].think = temp_func;
+		}
+		i = i + 1;
+	}
+}

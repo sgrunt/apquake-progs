@@ -172,6 +172,7 @@ void() SetApItems = {
     local float i;
 
     item_count = 0;
+    monster_count = 0;
 
     seed = mod(cvar("ap_rand_seed"), 40000000);
 
@@ -257,6 +258,64 @@ void() SetApItems = {
 			item_count = item_count + 1;
 		}
 	    }
+	    if(temp.flags & FL_MONSTER
+	    	&& temp.classname != "monster_fish"
+		&& temp.classname != "monster_boss"
+		&& temp.classname != "monster_oldone"
+		&& (temp.classname != "monster_zombie" || !(temp.spawnflags & SPAWN_CRUCIFIED)))
+	    {
+			temp.nextthink = time;
+			if (temp.classname == "monster_demon1") {
+				temp.think = ConvertToFiend;
+				temp.QualityType = 2;
+			}
+			if (temp.classname == "monster_dog") {
+				temp.think = ConvertToDog;
+				temp.QualityType = 0;
+			}
+			if (temp.classname == "monster_enforcer") {
+				temp.think = ConvertToEnforcer;
+				temp.QualityType = 0;
+			}
+			if (temp.classname == "monster_hell_knight") {
+				temp.think = ConvertToDeathKnight;
+				temp.QualityType = 1;
+			}
+			if (temp.classname == "monster_knight") {
+				temp.think = ConvertToKnight;
+				temp.QualityType = 0;
+			}
+			if (temp.classname == "monster_ogre") {
+				temp.think = ConvertToOgre;
+				temp.QualityType = 1;
+			}
+			if (temp.classname == "monster_shalrath") {
+				temp.think = ConvertToVore;
+				temp.QualityType = 2;
+			}
+			if (temp.classname == "monster_shambler") {
+				temp.think = ConvertToShambler;
+				temp.QualityType = 2;
+			}
+			if (temp.classname == "monster_army") {
+				temp.think = ConvertToGrunt;
+				temp.QualityType = 0;
+			}
+			if (temp.classname == "monster_tarbaby") {
+				temp.think = ConvertToSpawn;
+				temp.QualityType = 1;
+			}
+			if (temp.classname == "monster_wizard") {
+				temp.think = ConvertToScrag;
+				temp.QualityType = 0;
+			}
+			if (temp.classname == "monster_zombie") {	
+				temp.think = ConvertToZombie;
+				temp.QualityType = 0;
+			}
+	    	monsters_to_randomize[monster_count] = temp;
+		monster_count = monster_count + 1;
+	    }
 	}
     	temp = find(world, ApConverted, "");
     }
@@ -266,6 +325,14 @@ void() SetApItems = {
 	ShuffleItems();
     } else if (i == 2) {
     	RandomizeItems();
+    }
+    i = cvar("ap_random_monsters");
+    if (i == 1) {
+	ShuffleMonsters();
+    } else if (i == 2) {
+	RandomizeMonsters();
+    } else if (i == 3) {
+	RandomizeMonstersChaotic();
     }
 }
 
