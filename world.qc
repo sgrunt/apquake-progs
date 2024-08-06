@@ -184,6 +184,8 @@ void() worldspawn =
 
 // the area based ambient sounds MUST be the first precache_sounds
 
+	precache_apworld ();
+
 // player precaches	
 	W_Precache ();			// get weapon precaches
 
@@ -289,8 +291,6 @@ void() worldspawn =
 	precache_model ("progs/zom_gib.mdl");
 
 	precache_model ("progs/v_light.mdl");
-
-	precache_apworld ();
 	
 
 //
