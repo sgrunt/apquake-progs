@@ -18,6 +18,8 @@ monster_use
 Using a monster makes it angry at the current activator
 ================
 */
+float(float lower, float upper) Random;
+
 void() monster_use =
 {
 	if (self.enemy)
@@ -70,15 +72,60 @@ void() walkmonster_start_go =
 {
 local string	stemp;
 local entity	etemp;
+local vector old, neworigin;
+local float IS_IN_TELEPORTER;
 
 	self.origin_z = self.origin_z + 1;	// raise off floor a bit
-	droptofloor();
-	
-	if (!walkmove(0,0))
+
+	if(self.ApConverted == "1" && self.Unstuckable)
 	{
-		dprint ("walkmonster in wall at: ");
-		dprint (vtos(self.origin));
-		dprint ("\n");
+
+		IS_IN_TELEPORTER = IsTouchingTeleporter(self);
+
+		if(!IS_IN_TELEPORTER)
+		{
+			if(self.mins != self.oldmins)
+			{
+				// The coordinates of a monster will be corrected in case the bounding boxes are differently-sized.
+				neworigin = self.origin;
+				neworigin_x = neworigin_x - self.mins_x + self.oldmins_x;
+				neworigin_y = neworigin_y - self.mins_y + self.oldmins_y;
+				neworigin_z = neworigin_z - self.mins_z + self.oldmins_z;
+				setorigin(self, neworigin);
+				droptofloor();
+			}
+			droptofloor();
+		}
+		else
+		{		
+			dprint(self.classname);
+			dprint(" (");
+			dprint(vtos(self.origin));
+			dprint(")");
+			dprint(" seems to be tied to a teleporter. Excluded from unstuck checks.\n");
+		}
+		
+		if (!walkmove(0,0) && !IS_IN_TELEPORTER)
+		{
+			old_x = self.origin_x;
+			old_y = self.origin_y;
+			old_z = self.origin_z;
+			UnstuckMonster(self, 0);
+		}
+
+		if (!walkmove(0,0) && !IS_IN_TELEPORTER)
+		{
+			self.origin_x = old_x;
+			self.origin_y = old_y;
+			self.origin_z = old_z;
+			dprint ("\nUnstuck failed. walkmonster ");
+			dprint (self.classname);
+			dprint (" killed at: ");
+			dprint (vtos(self.origin));
+			T_Damage (self, world, world, 500000);
+			dprint ("\n");
+			return;
+		}
 	}
 	
 	self.takedamage = DAMAGE_AIM;
@@ -132,6 +179,9 @@ void() walkmonster_start =
 
 void() flymonster_start_go =
 {
+local vector old, neworigin;
+local float IS_IN_TELEPORTER;
+
 	self.takedamage = DAMAGE_AIM;
 
 	self.ideal_yaw = self.angles * '0 1 0';
@@ -143,11 +193,52 @@ void() flymonster_start_go =
 	self.flags = self.flags | FL_FLY;
 	self.flags = self.flags | FL_MONSTER;
 
-	if (!walkmove(0,0))
+	if(self.ApConverted == "1")
 	{
-		dprint ("flymonster in wall at: ");
-		dprint (vtos(self.origin));
-		dprint ("\n");
+		IS_IN_TELEPORTER = IsTouchingTeleporter(self);
+
+		if(!IS_IN_TELEPORTER)
+		{
+			if(self.mins != self.oldmins)
+			{
+				// The coordinates of a monster will be corrected in case the bounding boxes are differently-sized.
+				neworigin = self.origin;
+				neworigin_x = neworigin_x - self.mins_x + self.oldmins_x;
+				neworigin_y = neworigin_y - self.mins_y + self.oldmins_y;
+				neworigin_z = neworigin_z - self.mins_z + self.oldmins_z;
+				setorigin(self, neworigin);
+			}
+		}
+		else
+		{		
+			dprint(self.classname);
+			dprint(" (");
+			dprint(vtos(self.origin));
+			dprint(")");
+			dprint(" seems to be tied to a teleporter. Excluded from unstuck checks.\n");
+		}
+
+		if (!walkmove(0,0) && !IS_IN_TELEPORTER)
+		{
+			old_x = self.origin_x;
+			old_y = self.origin_y;
+			old_z = self.origin_z;
+			UnstuckMonster(self, 1);
+		}
+
+		if (!walkmove(0,0) && !IS_IN_TELEPORTER)
+		{
+			self.origin_x = old_x;
+			self.origin_y = old_y;
+			self.origin_z = old_z;
+			dprint ("\nUnstuck failed. flymonster ");
+			dprint (self.classname);
+			dprint (" killed at: ");
+			dprint (vtos(self.origin));
+			T_Damage (self, world, world, 500000);
+			dprint ("\n");
+			return;
+		}
 	}
 
 	if (self.target)

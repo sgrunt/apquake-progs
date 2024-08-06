@@ -88,6 +88,7 @@ void() RandomizeMonsters {
 				monsters_to_randomize[i].think = ConvertToVore;
 			}
 		}
+		monsters_to_randomize[i].Unstuckable = 1;
 		i = i + 1;
 	}
 }
@@ -124,6 +125,7 @@ void() RandomizeMonstersChaotic {
 		} else {
 			monsters_to_randomize[i].think = ConvertToVore;
 		}
+		monsters_to_randomize[i].Unstuckable = 1;
 		i = i + 1;
 	}
 }

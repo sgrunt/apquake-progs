@@ -1,4 +1,5 @@
 .float ApIndex;
+float(float playAlertSound) FindTarget;
 .string ApConverted;
 .vector oldmins;
 
@@ -343,6 +344,74 @@ float(float lower, float upper) Random =
         return floor((rand() * (upper - lower + 1)) + lower);
 };
 
+void(entity e, float flying) UnstuckMonster = 
+{
+	local entity oldself;
+	local float CURRENT_TRY;
+	local float MAX_TRIES;
+	local vector fixvector;
+	local vector old;
+	local vector min;
+	local vector max;
+	local vector diff;
+	local float canMove, seesTarget, alreadySeesTarget;
+
+	oldself = self;
+	self = e;
+
+	MAX_TRIES = 1500;
+	CURRENT_TRY = 0;
+	diff_x = self.size_x;
+	diff_y = self.size_y;
+	diff_z = self.size_z;
+	old_x = self.origin_x;
+	old_y = self.origin_y;
+	old_z = self.origin_z;
+	dprint("Attempting to unstuck ");
+	dprint(self.classname);
+	dprint(" (");
+	dprint(vtos(self.origin));
+	dprint(").");
+	alreadySeesTarget = FindTarget(FALSE);
+	do
+	{
+		fixvector_x = old_x;
+		fixvector_y = old_y;
+		fixvector_z = old_z;
+		// Give six tries with a single coordinate change in case it works
+		diff_x = fmin(diff_x + 3, 1200);
+		diff_y = fmin(diff_y + 3, 1200);
+		diff_z = fmin(diff_z + 3, 1200);
+		min_x = old_x - diff_x;
+		min_y = old_y - diff_y;
+		min_z = old_z - diff_z;
+		max_x = old_x + diff_x;
+		max_y = old_y + diff_y;
+		max_z = old_z + diff_z;
+		fixvector_x = Random(min_x, max_x);
+		fixvector_y = Random(min_y, max_y);
+		fixvector_z = Random(min_z, max_z);
+		setorigin(self, fixvector);
+		if(!flying)
+			droptofloor();
+		CURRENT_TRY = CURRENT_TRY + 1;
+		canMove = walkmove(0,0);
+		if(canMove && !alreadySeesTarget)
+			seesTarget = !FindTarget(FALSE);							// Don't move the monster to where they can already see the player (unless they already could do so)
+		if(canMove && (alreadySeesTarget || !seesTarget))
+		{
+			dprint(" Worked after ");
+			dprint(ftos(CURRENT_TRY));
+			dprint(" attempt(s) and relocated to (");
+			dprint(vtos(self.origin));
+			dprint(").\n");
+		}
+	}
+	while(!canMove && CURRENT_TRY < MAX_TRIES);
+	self.velocity_z = -500;
+	self = oldself;
+};
+
 void(entity e) UnstuckObject =
 {
         local entity oldself;
@@ -404,4 +473,45 @@ void(entity e) UnstuckObject =
         while(!dropped && CURRENT_TRY < MAX_TRIES);
         self.velocity_z = -500;
         self = oldself;
+};
+
+float sqrt(float x) =
+{
+    float rt = 1, ort = 0;
+    while(ort!=rt)
+    {
+        ort = rt;
+        rt = ((x/rt) + rt) / 2;
+    }
+    return rt;
+};
+
+float(entity head) IsTouchingTeleporter =
+{
+	local entity e;
+	local vector center = head.origin;
+	local float radius, side;
+
+		// Get the biggest measure to create the biggest possible cube that contains the entity
+	if(head.size_x >= head.size_y && head.size_x >= head.size_z)
+		side = head.size_x;
+	else if(head.size_y >= head.size_x && head.size_y >= head.size_z)
+		side = head.size_y;
+	else if(head.size_z >= head.size_x && head.size_z >= head.size_x)
+		side = head.size_z;
+
+	// The radius of a sphere that only touches the vertexes of a cube is half the cube's body diagonal
+	// (The body diagonal of a cube whose sides equal x is "sqrt(3) * x")
+	radius = (side * sqrt(3)) / 2;
+	e = findradius(head.origin, radius);
+
+	while(e)
+	{
+		if(e.classname == "trigger_teleport" && e.targetname)
+		{
+			return TRUE;
+		}
+		e = e.chain;
+	}
+	return FALSE;
 };

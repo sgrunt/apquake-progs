@@ -37,6 +37,8 @@ void() ShuffleMonsters {
 			temp_func = monsters_to_randomize[i].think;
 			monsters_to_randomize[i].think = monsters_to_randomize[j].think;
 			monsters_to_randomize[j].think = temp_func;
+			monsters_to_randomize[1].Unstuckable = 1;
+			monsters_to_randomize[j].Unstuckable = 1;
 		}
 		i = i + 1;
 	}
