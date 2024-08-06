@@ -462,6 +462,7 @@ void() PutClientInServer =
 
 	self.origin = spot.origin + '0 0 1';
 	self.angles = spot.angles;
+	self.v_angle = spot.angles;
 	self.fixangle = TRUE;		// turn this way immediately
 
 // oh, this is a hack!
