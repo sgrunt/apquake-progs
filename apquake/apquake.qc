@@ -171,7 +171,9 @@ void() SetApItems = {
     local entity temp;
     local float i;
 
-    seed = cvar("ap_rand_seed");
+    item_count = 0;
+
+    seed = mod(cvar("ap_rand_seed"), 40000000);
 
     temp = find(world, ApConverted, "");
     while(temp != world) {
@@ -203,10 +205,67 @@ void() SetApItems = {
 				temp.nextthink = time;
 				temp.think = ConvertItem;
 			}
+		} else if (temp.classname == "item_health") {
+			temp.nextthink = time;
+			temp.think = ConvertToHealth;
+			if (temp.spawnflags & H_ROTTEN) {
+				temp.QualityType = 1;
+			} else {
+				temp.QualityType = 2;
+			}
+			items_to_randomize[item_count] = temp;
+			item_count = item_count + 1;
+		} else if (temp.classname == "item_shells") {
+			temp.nextthink = time;
+			temp.think = ConvertToShells;
+			if (temp.spawnflags & WEAPON_BIG2) {
+				temp.QualityType = 2;
+			} else {
+				temp.QualityType = 1;
+			}
+			items_to_randomize[item_count] = temp;
+			item_count = item_count + 1;
+		} else if (temp.classname == "item_spikes") {
+			temp.nextthink = time;
+			temp.think = ConvertToNails;
+			if (temp.spawnflags & WEAPON_BIG2) {
+				temp.QualityType = 2;
+			} else {
+				temp.QualityType = 1;
+			}
+			items_to_randomize[item_count] = temp;
+			item_count = item_count + 1;
+		} else if (temp.classname == "item_rockets") {
+			temp.nextthink = time;
+			temp.think = ConvertToRockets;
+			if (temp.spawnflags & WEAPON_BIG2) {
+				temp.QualityType = 2;
+			} else {
+				temp.QualityType = 1;
+			}
+			items_to_randomize[item_count] = temp;
+			item_count = item_count + 1;
+		} else if (temp.classname == "item_cells") {
+			temp.nextthink = time;
+			temp.think = ConvertToCells;
+			if (temp.spawnflags & WEAPON_BIG2) {
+				temp.QualityType = 2;
+			} else {
+				temp.QualityType = 1;
+			}
+			items_to_randomize[item_count] = temp;
+			item_count = item_count + 1;
 		}
 	    }
 	}
     	temp = find(world, ApConverted, "");
+    }
+
+    i = cvar("ap_random_items");
+    if (i == 1) {
+	ShuffleItems();
+    } else if (i == 2) {
+    	RandomizeItems();
     }
 }
 

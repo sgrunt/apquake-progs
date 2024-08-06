@@ -34,5 +34,8 @@ shalrath.qc		// registered
 enforcer.qc		// registered
 oldone.qc		// registered
 
+apquake/replacers.qc
+apquake/shuffle.qc
+apquake/random.qc
 apquake/apquake.qc
 apquake/hubtele.qc

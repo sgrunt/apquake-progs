@@ -317,6 +317,10 @@ void (void() thinkst) SUB_CheckRefire =
 	self.think = thinkst;
 };
 
+float mod(float a, float b) = {
+    return a - (floor(a/b) * b);
+};
+
 float seed, next;
 
 float rand() = {
@@ -324,7 +328,7 @@ float rand() = {
     float c = 10653;
     float m = 1000000;
     if(next == 0) next = seed;
-    next = floor((next * a + c) % m);
+    next = floor(mod((next * a + c), m));
     return (next / m);
 };
 
