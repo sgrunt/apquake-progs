@@ -20,9 +20,9 @@ void() RandomizeItems {
 		} else if (j < 1415) {
 			items_to_randomize[i].think = ConvertToShells;
 		} else if (j < 1590) {
-			items_to_randomize[i].think = ConvertToCells;
-		} else {
 			items_to_randomize[i].think = ConvertToRockets;
+		} else {
+			items_to_randomize[i].think = ConvertToCells;
 		}
 		j = rand() * item_count;
 		if (j <= total_high_quality) {
