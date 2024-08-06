@@ -21,10 +21,20 @@ void() DisableHubTele {
 }
 
 void() HubTeleInit {
-	if (world.model == "maps/e4m1.bsp") {
+	if (world.model == "maps/e1m6.bsp") {
+		setorigin(hub_tele, '-96 884 216');
+	} else if (world.model == "maps/e2m6.bsp") {
+		setorigin(hub_tele, '448 336 -856');
+	} else if (world.model == "maps/e3m3.bsp") {
+		setorigin(hub_tele, '672 -160 24');
+	} else if (world.model == "maps/e3m5.bsp") {
+		setorigin(hub_tele, '632 -2736 -296');
+	} else if (world.model == "maps/e4m1.bsp") {
 		setorigin(hub_tele, '1320 750 -368');
 	} else if (world.model == "maps/e4m2.bsp") {
 		setorigin(hub_tele, '240 -240 792');
+	} else if (world.model == "maps/end.bsp") {
+		setorigin(hub_tele, '584 -680 40');
 	} else if (!droptofloor()) {
 		setorigin(hub_tele, hub_tele.origin - '0 0 256');
 		if (!droptofloor()) {
