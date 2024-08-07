@@ -270,8 +270,13 @@ void() changelevel_touch =
 
 	SUB_UseTargets ();
 
-	completelevel();
-	EndLevel(other);
+	if (completelevel()) { // victory
+		self = other;
+		SetChangeParms();
+		localcmd("disconnect; menu_victory\n");
+	} else {
+		EndLevel(other);
+	}
 };
 
 /*QUAKED trigger_changelevel (0.5 0.5 0.5) ? NO_INTERMISSION
