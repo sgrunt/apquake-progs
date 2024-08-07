@@ -347,6 +347,8 @@ void() ConvertItem {
 		self.origin_x = self.origin_x + 16;
 		self.origin_y = self.origin_y + 16;
 		self.origin_z = self.origin_z + 24;
+	} else if (self.classname == "item_armor1" || self.classname == "item_armor2" || self.classname == "item_armorInv") {
+		self.origin_z = self.origin_z + 16;
 	}
 	self.oldmins = self.mins;
 	self.touch = powerup_touch;
