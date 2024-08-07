@@ -37,7 +37,7 @@ void() HubTeleInit {
 	} else if (world.model == "maps/e4m2.bsp") {
 		setorigin(hub_tele, '240 -240 792');
 	} else if (world.model == "maps/end.bsp") {
-		setorigin(hub_tele, '584 -680 40');
+		setorigin(hub_tele, '-584 680 40');
 	} else if (!droptofloor()) {
 		setorigin(hub_tele, hub_tele.origin - '0 0 256');
 		if (!droptofloor()) {
