@@ -3,6 +3,9 @@ entity hub_tele;
 void() DisableHubTele;
 
 void() DoHubTele {
+	if (other.classname != "player")
+		return;
+
 	DisableHubTele();
 	EndLevel(other);
 }
