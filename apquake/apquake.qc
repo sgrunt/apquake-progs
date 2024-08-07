@@ -347,8 +347,6 @@ void() ConvertItem {
 		self.origin_x = self.origin_x + 16;
 		self.origin_y = self.origin_y + 16;
 		self.origin_z = self.origin_z + 24;
-	} else if (self.touch == weapon_touch) {
-		self.origin_z = self.origin_z + 24;
 	}
 	self.oldmins = self.mins;
 	self.touch = powerup_touch;
