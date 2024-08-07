@@ -46,6 +46,7 @@ void() SetChangeParms_MidLevel
 	parm11 = self.invincible_finished - time;
 	parm12 = self.radsuit_finished - time;
 	parm13 = self.super_damage_finished - time;
+	parm14 = self.megahealth_rot - time;
 }
 
 void() SetChangeParms =
@@ -88,6 +89,7 @@ void() SetNewParms =
 	parm11 = 0;
 	parm12 = 0;
 	parm13 = 0;
+	parm14 = 0;
 };
 
 void() DecodeLevelParms =
@@ -134,6 +136,11 @@ void() DecodeLevelParms =
 	} else {
 		self.super_time = 0;
 		self.super_damage_finished = 0;
+	}
+	if (parm14 > 0 || self.health > self.max_health) {
+		self.megahealth_rot = time + parm14;
+	} else {
+		self.megahealth_rot = 0;
 	}
 };
 
@@ -446,6 +453,7 @@ void() PutClientInServer =
 	self.radsuit_finished = 0;
 	self.invisible_finished = 0;
 	self.invincible_finished = 0;
+	self.megahealth_rot = 0;
 	self.effects = 0;
 	self.invincible_time = 0;
 
@@ -1056,6 +1064,22 @@ void() CheckPowerups =
 			self.radsuit_finished = 0;
 		}
 	}	
+
+	if (self.megahealth_rot)
+	{
+		if (self.megahealth_rot < time)
+		{
+		        if (self.health > self.max_health)
+        		{
+                		self.health = self.health - 1;
+		                self.megahealth_rot = time + 1;
+                		return;
+		        }
+
+		        self.items = self.items - (self.items & IT_SUPERHEALTH);
+			self.megahealth_rot = 0;
+		}
+	}
 
 };
 

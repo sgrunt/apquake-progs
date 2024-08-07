@@ -692,3 +692,4 @@ float(entity targ, entity inflictor) CanDamage;
 
 
 .float Unstuckable;
+.float megahealth_rot;

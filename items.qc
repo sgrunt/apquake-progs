@@ -148,7 +148,7 @@ float	H_ROTTEN = 1;
 float	H_MEGA = 2;
 .float	healamount, healtype;
 void() health_touch;
-void() item_megahealth_rot;
+//void() item_megahealth_rot;
 
 void() item_health =
 {	
@@ -226,9 +226,12 @@ void() health_touch =
 	if (self.healtype == 2)
 	{
 		other.items = other.items | IT_SUPERHEALTH;
-		self.nextthink = time + 5;
-		self.think = item_megahealth_rot;
-		self.owner = other;
+		if (other.megahealth_rot == 0)
+			other.megahealth_rot = time + 5;
+		self.think = SUB_regen;
+//		self.nextthink = time + 5;
+//		self.think = item_megahealth_rot;
+//		self.owner = other;
 	}
 	else
 	{
@@ -243,28 +246,6 @@ void() health_touch =
 	activator = other;
 	SUB_UseTargets();				// fire all targets / killtargets
 };	
-
-void() item_megahealth_rot =
-{
-	other = self.owner;
-	
-	if (other.health > other.max_health)
-	{
-		other.health = other.health - 1;
-		self.nextthink = time + 1;
-		return;
-	}
-
-// it is possible for a player to die and respawn between rots, so don't
-// just blindly subtract the flag off
-	other.items = other.items - (other.items & IT_SUPERHEALTH);
-	
-	if (deathmatch == 1)	// deathmatch 2 is silly old rules
-	{
-		self.nextthink = time + 20;
-		self.think = SUB_regen;
-	}
-};
 
 /*
 ===============================================================================
