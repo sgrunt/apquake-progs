@@ -175,6 +175,7 @@ void() SetApItems = {
     monster_count = 0;
 
     seed = mod(cvar("ap_rand_seed"), 40000000);
+    next = seed;
 
     temp = find(world, ApConverted, "");
     while(temp != world) {
