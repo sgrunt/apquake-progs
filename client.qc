@@ -62,8 +62,8 @@ void() SetChangeParms =
 			self.ammo_rockets = 25;
 		}
 		if ((self.items & (IT_LIGHTNING))
-		    && self.ammo_cells < 50) {
-			self.ammo_cells = 50;
+		    && self.ammo_cells < 25) {
+			self.ammo_cells = 25;
 		}
 	}
 
