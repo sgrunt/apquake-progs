@@ -165,6 +165,11 @@ void() precache_apworld = {
 	precache_model ("progs/g_rock.mdl");
 	precache_model ("progs/g_rock2.mdl");
 	precache_model ("progs/g_light.mdl");
+	precache_model ("progs/end1.mdl"); // rune pickup
+	precache_model2 ("progs/end2.mdl");
+	precache_model2 ("progs/end3.mdl");
+	precache_model2 ("progs/end4.mdl");
+	precache_sound ("misc/runekey.wav");
 }
 
 void() SetApItems = {
