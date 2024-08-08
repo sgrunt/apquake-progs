@@ -115,6 +115,7 @@ void() DecodeLevelParms =
 	} else {
 		self.invisible_time = 0;
 		self.invisible_finished = 0;
+		self.items = self.items - (self.items & IT_INVISIBILITY);
 	}
 	if (parm11 > 0) {
 		self.invincible_time = 1;
@@ -122,6 +123,7 @@ void() DecodeLevelParms =
 	} else {
 		self.invincible_time = 0;
 		self.invincible_finished = 0;
+		self.items = self.items - (self.items & IT_INVULNERABILITY);
 	}
 	if (parm12 > 0) {
 		self.rad_time = 1;
@@ -129,6 +131,7 @@ void() DecodeLevelParms =
 	} else {
 		self.rad_time = 0;
 		self.radsuit_finished = 0;
+		self.items = self.items - (self.items & IT_SUIT);
 	}
 	if (parm13 > 0) {
 		self.super_time = 1;
@@ -136,11 +139,13 @@ void() DecodeLevelParms =
 	} else {
 		self.super_time = 0;
 		self.super_damage_finished = 0;
+		self.items = self.items - (self.items & IT_QUAD);
 	}
 	if (parm14 > 0 || self.health > self.max_health) {
 		self.megahealth_rot = time + parm14;
 	} else {
 		self.megahealth_rot = 0;
+		self.items = self.items - (self.items & IT_SUPERHEALTH);
 	}
 };
 
