@@ -233,7 +233,17 @@ void() finale_4 =
 	WriteByte (MSG_ALL, 3);
 	lightstyle(0, "m");	
 
-	completelevel();
+	// might as well play the victory text here if needed
+	if (completelevel())
+	{
+        	WriteByte (MSG_ALL, SVC_FINALE);
+	        WriteString (MSG_ALL, "\nCongratulations and well done! You have\nbeaten the seed, and its hundreds of\nchecks and locations. You have proven\nthat your skill and your cunning are\ngreater than all the powers of Quake.\nYou are the master now. We salute you.");
+	}
+	else
+	{
+        	WriteByte (MSG_ALL, SVC_FINALE);
+	        WriteString (MSG_ALL, "\nYou have defeated Shub-Niggurath...\nBut there are still more levels to\ncomplete. Get back to it!");
+	}
 };
 
 //============================================================================
