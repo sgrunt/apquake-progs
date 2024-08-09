@@ -506,6 +506,7 @@ void() PutClientInServer =
 
 	spawn_tdeath (self.origin, self);
 
+	ap_clear_death();
 };
 
 
@@ -868,6 +869,7 @@ PlayerPreThink
 Called every frame before physics are run
 ================
 */
+void(entity targ, entity attacker) Killed;
 void() PlayerPreThink =
 {
 	local	float	mspeed, aspeed;
@@ -886,6 +888,13 @@ void() PlayerPreThink =
 
 	CheckRules ();
 	WaterMove ();
+
+	if (ap_should_die())
+	{
+		sprint(self, "Death by Deathlink\n");
+		self.health = 0;
+		Killed(self, world);
+	}
 
 	if (self.waterlevel == 2)
 		CheckWaterJump ();

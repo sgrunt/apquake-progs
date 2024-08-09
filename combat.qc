@@ -169,6 +169,8 @@ void(entity targ, entity inflictor, entity attacker, float damage) T_Damage=
 			
 	if (targ.health <= 0)
 	{
+		if (targ.classname == "player")
+			ap_on_death();
 		Killed (targ, attacker);
 		return;
 	}

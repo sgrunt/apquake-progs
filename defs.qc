@@ -666,6 +666,10 @@ void(entity e) setspawnparms		= #78;		// set parm1... to the
 												// values at level start
 												// for coop respawn
 
+float() ap_should_die	= #90;
+void() ap_on_death = #91;
+void() ap_clear_death = #92;
+
 //============================================================================
 
 //
