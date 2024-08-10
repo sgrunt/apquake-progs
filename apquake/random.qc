@@ -53,7 +53,7 @@ void() RandomizeMonsters {
 	i = 0;
 	while (i < monster_count) {
 		// these numbers are based on episode 1-4 + end totals
-		j = rand() * total_monsters;
+		j = rand() * monster_count;
 		if (j < small_cutoff) {
 			j = rand() * 877;
 			if (j < 30) {
