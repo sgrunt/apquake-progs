@@ -317,6 +317,8 @@ void() set_suicide_frame;
 // called by ClientKill and DeadThink
 void() respawn =
 {
+	if (self.health > 0)
+		self.health = 0; // for respawn logic purposes to refill health
 	if (cvar("ap_reset_level_on_death"))
 	{	// restart the entire server
 		localcmd ("restart\n");
