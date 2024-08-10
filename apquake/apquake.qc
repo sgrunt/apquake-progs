@@ -273,7 +273,7 @@ void() SetApItems = {
 			temp.nextthink = time;
 			if (temp.classname == "monster_demon1") {
 				temp.think = ConvertToFiend;
-				temp.QualityType = 2;
+				temp.QualityType = 1;
 			}
 			if (temp.classname == "monster_dog") {
 				temp.think = ConvertToDog;
